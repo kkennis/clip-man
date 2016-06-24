@@ -13,5 +13,8 @@
     "manager"
   ],
   "author": "Kevin Kennis",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "electron-prebuilt": "^1.2.5"
+  }
 }
