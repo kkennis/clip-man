@@ -81,7 +81,7 @@ function drawInitial(results) {
 
 function itemTemplate(item) {
     return `
-<div class='item' tabindex='1'>
+<div class='item' tabindex='1' _id=${item.id} _rev=${item.rev}>
     <h4 class='item-header'>${item.key}</h4>
     <p class='item-value'>${item.value}</p>
 </div>`;
@@ -91,7 +91,6 @@ function copyValue(event) {
     if (event.keyCode === 13) {
         const value = $(event.target).find('.item-value').html();
         copy(value);
-        console.log('Copied', value)
         $(event.target).blur();
     } else if (event.keyCode === 38) {
         $(event.target).prev().focus();
@@ -99,6 +98,7 @@ function copyValue(event) {
         $(event.target).next().focus();
     } else if (event.keyCode === 27) {
         $('#key-input').focus();
+    } else if (event.ctrlKey && event.keyCode == 68) {
     }
 }
 
