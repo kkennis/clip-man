@@ -27,7 +27,6 @@
     "menubar": "^4.1.2",
     "pouchdb": "^5.4.4",
     "pouchdb-find": "^0.10.2",
-    "pouchdb-legacy-utils": "^1.0.0",
-    "pouchdb-quick-search": "^1.1.2"
+    "pouchdb-legacy-utils": "^1.0.0"
   }
 }

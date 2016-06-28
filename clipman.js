@@ -2,9 +2,10 @@ const $ = require('./lib/jquery.min.js');
 PouchDB.plugin(require('pouchdb-legacy-utils'));
 PouchDB.plugin(require('pouchdb-find'));
 const db = new PouchDB('clips');
-const copy = require('copy-to-clipboard')
+const copy = require('copy-to-clipboard');
 // require('./do-puts')(db)
 
+let currentClips;
 
 $(document).ready(function() {
     // db.createIndex({
@@ -17,14 +18,13 @@ $(document).ready(function() {
 function init() {
     populateKeys();
 
-    var $search = $('#key-input');
+    let $search = $('#key-input');
     $search.focus();
     $search.on('keyup', updateResults)
 
-    $('.clip-container').on('keyup', '.item', copyValue)
-    $('.add-val').on('click', addItem)
-    $('.add-item').on('keyup', '#new-val-input', handleInputHotkey)
-
+    $('.clip-container').on('keyup', '.item', handleItemClick)
+    $('.add-val').on('click', showAdd)
+    $('.add-item').on('keyup', '#new-val-input, #new-key-input', handleInputHotkey)
 }
 
 function populateKeys() {
@@ -34,9 +34,9 @@ function populateKeys() {
 
 function updateResults(event) {
     if (event.ctrlKey && event.keyCode === 78) {
-        addItem();
+        showAdd();
     } else {
-        var inputVal = $(event.target).val();
+        let inputVal = $(event.target).val();
 
         db.find({
             selector: {
@@ -45,49 +45,38 @@ function updateResults(event) {
                 }
             }
         })
-        .then(function(results) {
-            console.log('Searched on input', results)
-            drawResults(results);
-        });
+        .then(drawResults);
     }
-
 }
 
 function drawResults(results) {
-    if (results.docs.length > 0) {
-        console.log('Got results')
-
-        $('.clip-container').html('');
-
-        results.docs.reverse().forEach((item) => {
-            $('.clip-container').append(itemTemplate(item));
-        });
-    }
+    currentClips = results.docs
+    drawClips();
 }
 
 function drawInitial(results) {
-    console.log('Got results', results)
-
     if (results.total_rows > 0) {
-        console.log('Got results')
-
-        $('.clip-container').html('');
-
-        results.rows.reverse().forEach((item) => {
-            $('.clip-container').append(itemTemplate(item.doc));
-        });
+        currentClips = results.rows.map((r) => r.doc);
+        drawClips();
     }
+}
+
+function drawClips() {
+    $('.clip-container').html('');
+    currentClips.reverse().forEach((item) => {
+        $('.clip-container').append(itemTemplate(item));
+    });
 }
 
 function itemTemplate(item) {
     return `
-<div class='item' tabindex='1' _id=${item.id} _rev=${item.rev}>
+<div class='item' tabindex='1' _id=${item._id}>
     <h4 class='item-header'>${item.key}</h4>
     <p class='item-value'>${item.value}</p>
 </div>`;
 }
 
-function copyValue(event) {
+function handleItemClick(event) {
     if (event.keyCode === 13) {
         const value = $(event.target).find('.item-value').html();
         copy(value);
@@ -99,25 +88,32 @@ function copyValue(event) {
     } else if (event.keyCode === 27) {
         $('#key-input').focus();
     } else if (event.ctrlKey && event.keyCode == 68) {
+        const id = $(event.target).attr('_id');
+        const doc = currentClips.find((clip) => clip._id === id);
+        db.remove(doc._id, doc._rev).then(populateKeys);
     }
 }
 
-function addItem(event) {
+function showAdd(event) {
     $('.input-line').hide()
     $('.add-item').show()
     $('#new-key-input').focus();
+}
+
+function showSearch(event) {
+    $('.input-line').show()
+    $('.add-item').hide()
+    $('#key-input').focus()
 }
 
 function handleInputHotkey(event) {
     event.preventDefault();
 
     if (event.keyCode === 27) {
-        $('.input-line').show()
-        $('.add-item').hide()
-        $('#key-input').focus()
+        showSearch();
     } else if (event.ctrlKey && event.keyCode === 13) {
-        var key = $('[name=key]').val()
-        var value = $('[name=value]').val()
+        let key = $('[name=key]').val()
+        let value = $('[name=value]').val()
         $('[name=key]').val('')
         $('[name=value]').val('').html('')
 
@@ -126,11 +122,8 @@ function handleInputHotkey(event) {
             key,
             value
         }).then(() => {
-            $('.input-line').show()
-            $('.add-item').hide()
-            $('#key-input').focus()
-
             populateKeys();
+            showSearch();
         })
     }
 }

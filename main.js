@@ -11,5 +11,7 @@ mb.on('after-create-window', () => {
     globalShortcut.register(GLOBAL_SHORTCUT, () => {
         mb.window.isVisible() ? mb.hideWindow() : mb.showWindow()
     });
+
+    // mb.window.openDevTools()
 });
 
