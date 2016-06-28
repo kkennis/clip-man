@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A dead simple clipboard manager",
   "main": "main.js",
+  "productName": "Clip Man",
   "scripts": {
     "start": "electron .",
     "build": "electron-packager . ClipMan --platform=darwin --arch=x64 --version=0.36.0 --icon=Icon.icns",
