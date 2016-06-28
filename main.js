@@ -1,7 +1,15 @@
-var menubar =  require('menubar');
+const { globalShortcut } = require('electron');
+const menubar = require('menubar');
+const mb = menubar({ 'preload-window': true });
+const GLOBAL_SHORTCUT = 'CommandOrControl+Alt+N';
 
-var mb = menubar();
+mb.on('ready', () => {
 
-mb.on('ready', function() {
-  console.log('app is ready')
 });
+
+mb.on('after-create-window', () => {
+    globalShortcut.register(GLOBAL_SHORTCUT, () => {
+        mb.window.isVisible() ? mb.hideWindow() : mb.showWindow()
+    });
+});
+

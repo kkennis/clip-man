@@ -17,11 +17,17 @@
   "author": "Kevin Kennis",
   "license": "MIT",
   "devDependencies": {
+    "electron-connect": "^0.4.2",
     "electron-packager": "^7.1.0",
-    "electron-prebuilt": "^1.2.5"
+    "electron-prebuilt": "^1.2.5",
+    "gulp": "^3.9.1"
   },
   "dependencies": {
+    "copy-to-clipboard": "^3.0.2",
     "menubar": "^4.1.2",
-    "pouchdb": "^5.4.4"
+    "pouchdb": "^5.4.4",
+    "pouchdb-find": "^0.10.2",
+    "pouchdb-legacy-utils": "^1.0.0",
+    "pouchdb-quick-search": "^1.1.2"
   }
 }

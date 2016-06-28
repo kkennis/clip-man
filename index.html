@@ -1,12 +1,21 @@
 <html>
 <head>
+<link rel='stylesheet' type='text/css' href='style.css'/>
 <title>Clip Man</title>
 </head>
 <body>
-    <input type='text' placeholder='Enter clip key' name='key'/>
-    <hr />
-    <h4>Clip Keys</h4>
-    <div class='clip-keys'>
+    <div class='input-line'>
+        <input id='key-input' type='text' name='search-key'/>
+        <span class='add-val'>&plus;</span>
     </div>
+    <div class='add-item'>
+        <input id='new-key-input' type='text' name='key' placeholder='Key'/>
+        <textarea id='new-val-input' type='text' name='value' rows='3' placeholder='Value'></textarea>
+    </div>
+    <div class='clip-container'>
+        <h4 class='no-clips'>No clips yet. Add some!</h4>
+    </div>
+    <script type='text/javascript' src='lib/pouchdb.min.js'></script>
+    <script type='text/javascript' src='clipman.js'></script>
 </body>
 </html>
