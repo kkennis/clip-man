@@ -1,14 +1,20 @@
 const React = require('react');
 const { connect } = require('react-redux');
+const copy = require('copy-to-clipboard');
 const Clip = require('../components/clip');
 const { loadClips, goToAdd, goToSearch, moveFocusDown, moveFocusUp, removeClip } = require('../actions');
 const keycodes = require('../constants/keycodes')
+const ipcRenderer = window.require('electron').ipcRenderer;
 
 class ClipsList extends React.Component {
     clipRefs = [];
 
     componentWillMount() {
         this.props.dispatch(loadClips());
+    }
+
+    componentWillUpdate() {
+        this.clipRefs = [];
     }
 
     componentDidMount() {
@@ -34,11 +40,12 @@ class ClipsList extends React.Component {
             } else if (event.keyCode === keycodes.DELETE_CLIP) {
                 const clipData = this.clipRefs[this.props.focus].data;
                 this.props.dispatch(removeClip(clipData));
+            } else if (event.keyCode === keycodes.QUIT_APP) {
+                ipcRenderer.send('quit');
             }
         } else {
             if (event.keyCode === keycodes.COPY_CLIP) {
-                // need to do actual copying here
-                // doCopy();
+                this._doCopy(event);
             } else if (event.keyCode === keycodes.TOGGLE_DOWN && this.props.focus < this.clipRefs.length - 1) {
                 this.props.dispatch(moveFocusDown());
             } else if (event.keyCode === keycodes.TOGGLE_UP) {
@@ -48,6 +55,13 @@ class ClipsList extends React.Component {
             }
 
         }
+    }
+
+    _doCopy = (event) => {
+        const { value } = this.clipRefs[this.props.focus].data;
+        copy(value);
+        event.target.blur();
+        ipcRenderer.send('selected');
     }
 
     render() {

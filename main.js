@@ -13,4 +13,5 @@ mb.on('after-create-window', () => {
 });
 
 ipcMain.on('selected', () => { mb.hideWindow(); });
+ipcMain.on('quit', () => { mb.app.quit() });
 

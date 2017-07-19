@@ -8488,7 +8488,8 @@ module.exports = {
     SWITCH_FIELD: 9, // this is tab
     SUBMIT_FORM: 13, // this is 'enter'
     COPY_CLIP: 13, // this is 'enter'
-    DELETE_CLIP: 68 // this is 'd'
+    DELETE_CLIP: 68, // this is 'd'
+    QUIT_APP: 81 // this is 'q'
 };
 
 /***/ }),
@@ -29539,6 +29540,7 @@ var _require2 = __webpack_require__(106),
 var keycodes = __webpack_require__(64);
 var AddControl = __webpack_require__(272);
 var SearchControl = __webpack_require__(273);
+var ipcRenderer = window.require('electron').ipcRenderer;
 
 var ControlBar = function (_React$Component) {
     _inherits(ControlBar, _React$Component);
@@ -29559,11 +29561,11 @@ var ControlBar = function (_React$Component) {
                 _this.props.dispatch(goToAdd());
             } else if (event.keyCode === keycodes.TOGGLE_DOWN) {
                 _this.props.dispatch(moveFocusDown());
-            } else {
-                _this.updateSearch(event);
+            } else if (event.ctrlKey && event.keyCode === keycodes.QUIT_APP) {
+                ipcRenderer.send('quit');
             }
         }, _this.updateSearch = function (event) {
-            var searchStr = event.target.value;
+            var searchStr = event.currentTarget.value;
             _this.props.dispatch(updateSearch(searchStr));
         }, _this.handleAddKeyUp = function (event) {
             if (event.keyCode === keycodes.GO_BACK) {
@@ -29571,6 +29573,8 @@ var ControlBar = function (_React$Component) {
             } else if (event.keyCode === keycodes.SWITCH_FIELD) {
                 event.preventDefault();
                 _this.valueRef === document.activeElement ? _this.valueRef.focus() : _this.keyRef.focus();
+            } else if (event.ctrlKey && event.keyCode === keycodes.QUIT_APP) {
+                ipcRenderer.send('quit');
             }
         }, _this.addClip = function (clipData) {
             _this.props.dispatch(addClip(clipData));
@@ -29612,12 +29616,16 @@ var ControlBar = function (_React$Component) {
                     },
                     valueRef: function valueRef(valueEl) {
                         _this2.valueRef = valueEl;
-                    }
+                    },
+                    clipKeys: this.props.clips.map(function (clip) {
+                        return clip.key;
+                    })
                 });
             } else {
                 return React.createElement(SearchControl, {
                     searchVal: this.props.search || '',
                     onKeyUp: this.handleSearchKeyUp,
+                    onChange: this.updateSearch,
                     searchRef: function searchRef(searchEl) {
                         _this2.searchRef = searchEl;
                     }
@@ -29633,7 +29641,8 @@ function mapStateToProps(state) {
     return {
         mode: state.mode,
         search: state.search,
-        focus: state.focus
+        focus: state.focus,
+        clips: state.clips
     };
 }
 
@@ -32891,13 +32900,35 @@ var AddControl = function (_React$Component) {
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = AddControl.__proto__ || Object.getPrototypeOf(AddControl)).call.apply(_ref, [this].concat(args))), _this), _this.state = { key: '', value: '' }, _this.updateForm = function (event) {
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = AddControl.__proto__ || Object.getPrototypeOf(AddControl)).call.apply(_ref, [this].concat(args))), _this), _this.state = { key: '', value: '', error: null }, _this.updateForm = function (event) {
             _this.setState(_defineProperty({}, event.target.name, event.target.value));
         }, _this.onKeyUp = function (event) {
             if (event.ctrlKey && event.keyCode === keycodes.SUBMIT_FORM) {
-                _this.props.addClip(_this.state);
+                var validation = _this._validateInput();
+
+                if (validation.valid) {
+                    _this.props.addClip(_this.state);
+                } else {
+                    _this.setState({ error: validation.error });
+                }
             } else {
                 _this.props.onKeyUp(event);
+            }
+        }, _this._validateInput = function () {
+            if (!_this.state.key) {
+                return {
+                    valid: false,
+                    error: 'Key may not be empty.'
+                };
+            } else if (!_this.state.value) {
+                return {
+                    valid: false,
+                    error: 'Value may not be empty.'
+                };
+            } else {
+                return {
+                    valid: true
+                };
             }
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
@@ -32905,7 +32936,7 @@ var AddControl = function (_React$Component) {
     _createClass(AddControl, [{
         key: 'componentWillMount',
         value: function componentWillMount() {
-            this.setState({ key: '', value: '' });
+            this.setState({ key: '', value: '', error: null });
         }
     }, {
         key: 'render',
@@ -32913,6 +32944,12 @@ var AddControl = function (_React$Component) {
             return React.createElement(
                 'div',
                 { className: 'add-item', onKeyUp: this.onKeyUp },
+                this.state.error && React.createElement(
+                    'p',
+                    { className: 'error-text' },
+                    'Error: ',
+                    this.state.error
+                ),
                 React.createElement('input', {
                     id: 'new-key-input',
                     type: 'text',
@@ -32952,7 +32989,7 @@ var React = __webpack_require__(13);
 var SearchControl = function SearchControl(_ref) {
     var searchVal = _ref.searchVal,
         onKeyUp = _ref.onKeyUp,
-        onToggleAdd = _ref.onToggleAdd,
+        onChange = _ref.onChange,
         searchRef = _ref.searchRef;
     return React.createElement(
         'div',
@@ -32961,6 +32998,7 @@ var SearchControl = function SearchControl(_ref) {
             id: 'key-input',
             type: 'text',
             value: searchVal,
+            onChange: onChange,
             onKeyUp: onKeyUp,
             ref: searchRef
         })
@@ -32989,6 +33027,7 @@ var React = __webpack_require__(13);
 var _require = __webpack_require__(59),
     connect = _require.connect;
 
+var copy = __webpack_require__(281);
 var Clip = __webpack_require__(275);
 
 var _require2 = __webpack_require__(106),
@@ -33000,6 +33039,7 @@ var _require2 = __webpack_require__(106),
     removeClip = _require2.removeClip;
 
 var keycodes = __webpack_require__(64);
+var ipcRenderer = window.require('electron').ipcRenderer;
 
 var ClipsList = function (_React$Component) {
     _inherits(ClipsList, _React$Component);
@@ -33024,11 +33064,12 @@ var ClipsList = function (_React$Component) {
                 } else if (event.keyCode === keycodes.DELETE_CLIP) {
                     var clipData = _this.clipRefs[_this.props.focus].data;
                     _this.props.dispatch(removeClip(clipData));
+                } else if (event.keyCode === keycodes.QUIT_APP) {
+                    ipcRenderer.send('quit');
                 }
             } else {
                 if (event.keyCode === keycodes.COPY_CLIP) {
-                    // need to do actual copying here
-                    // doCopy();
+                    _this._doCopy(event);
                 } else if (event.keyCode === keycodes.TOGGLE_DOWN && _this.props.focus < _this.clipRefs.length - 1) {
                     _this.props.dispatch(moveFocusDown());
                 } else if (event.keyCode === keycodes.TOGGLE_UP) {
@@ -33037,6 +33078,12 @@ var ClipsList = function (_React$Component) {
                     _this.props.dispatch(goToSearch());
                 }
             }
+        }, _this._doCopy = function (event) {
+            var value = _this.clipRefs[_this.props.focus].data.value;
+
+            copy(value);
+            event.target.blur();
+            ipcRenderer.send('selected');
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -33044,6 +33091,11 @@ var ClipsList = function (_React$Component) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             this.props.dispatch(loadClips());
+        }
+    }, {
+        key: 'componentWillUpdate',
+        value: function componentWillUpdate() {
+            this.clipRefs = [];
         }
     }, {
         key: 'componentDidMount',
@@ -33127,7 +33179,7 @@ var Clip = function Clip(_ref) {
         clipRef = _ref.clipRef;
     return React.createElement(
         'div',
-        { className: 'item', id: 'clip-' + clip._id, ref: clipRef },
+        { className: 'item', tabIndex: '0', id: 'clip-' + clip._id, ref: clipRef },
         React.createElement(
             'h4',
             { className: 'item-header' },
@@ -33254,6 +33306,142 @@ function focus() {
 }
 
 module.exports = focus;
+
+/***/ }),
+/* 281 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var deselectCurrent = __webpack_require__(282);
+
+var defaultMessage = 'Copy to clipboard: #{key}, Enter';
+
+function format(message) {
+  var copyKey = (/mac os x/i.test(navigator.userAgent) ? '⌘' : 'Ctrl') + '+C';
+  return message.replace(/#{\s*key\s*}/g, copyKey);
+}
+
+function copy(text, options) {
+  var debug,
+      message,
+      reselectPrevious,
+      range,
+      selection,
+      mark,
+      success = false;
+  if (!options) {
+    options = {};
+  }
+  debug = options.debug || false;
+  try {
+    reselectPrevious = deselectCurrent();
+
+    range = document.createRange();
+    selection = document.getSelection();
+
+    mark = document.createElement('span');
+    mark.textContent = text;
+    // reset user styles for span element
+    mark.style.all = 'unset';
+    // prevents scrolling to the end of the page
+    mark.style.position = 'fixed';
+    mark.style.top = 0;
+    mark.style.clip = 'rect(0, 0, 0, 0)';
+    // used to preserve spaces and line breaks
+    mark.style.whiteSpace = 'pre';
+    // do not inherit user-select (it may be `none`)
+    mark.style.webkitUserSelect = 'text';
+    mark.style.MozUserSelect = 'text';
+    mark.style.msUserSelect = 'text';
+    mark.style.userSelect = 'text';
+
+    document.body.appendChild(mark);
+
+    range.selectNode(mark);
+    selection.addRange(range);
+
+    var successful = document.execCommand('copy');
+    if (!successful) {
+      throw new Error('copy command was unsuccessful');
+    }
+    success = true;
+  } catch (err) {
+    debug && console.error('unable to copy using execCommand: ', err);
+    debug && console.warn('trying IE specific stuff');
+    try {
+      window.clipboardData.setData('text', text);
+      success = true;
+    } catch (err) {
+      debug && console.error('unable to copy using clipboardData: ', err);
+      debug && console.error('falling back to prompt');
+      message = format('message' in options ? options.message : defaultMessage);
+      window.prompt(message, text);
+    }
+  } finally {
+    if (selection) {
+      if (typeof selection.removeRange == 'function') {
+        selection.removeRange(range);
+      } else {
+        selection.removeAllRanges();
+      }
+    }
+
+    if (mark) {
+      document.body.removeChild(mark);
+    }
+    reselectPrevious();
+  }
+
+  return success;
+}
+
+module.exports = copy;
+
+/***/ }),
+/* 282 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function () {
+  var selection = document.getSelection();
+  if (!selection.rangeCount) {
+    return function () {};
+  }
+  var active = document.activeElement;
+
+  var ranges = [];
+  for (var i = 0; i < selection.rangeCount; i++) {
+    ranges.push(selection.getRangeAt(i));
+  }
+
+  switch (active.tagName.toUpperCase()) {// .toUpperCase handles XHTML
+    case 'INPUT':
+    case 'TEXTAREA':
+      active.blur();
+      break;
+
+    default:
+      active = null;
+      break;
+  }
+
+  selection.removeAllRanges();
+  return function () {
+    selection.type === 'Caret' && selection.removeAllRanges();
+
+    if (!selection.rangeCount) {
+      ranges.forEach(function (range) {
+        selection.addRange(range);
+      });
+    }
+
+    active && active.focus();
+  };
+};
 
 /***/ })
 /******/ ]);

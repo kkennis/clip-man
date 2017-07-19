@@ -25,6 +25,7 @@ module.exports = {
             }
         ]
     },
+    externals: 'electron',
     plugins: [
         // new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),

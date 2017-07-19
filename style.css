@@ -57,3 +57,8 @@ body {
 .item {
     padding-bottom: 0.25em;
 }
+
+.error-text {
+    color: #CE311E;
+    font-size: 0.9em;
+}

@@ -7,5 +7,6 @@ module.exports = {
     SWITCH_FIELD: 9, // this is tab
     SUBMIT_FORM: 13, // this is 'enter'
     COPY_CLIP: 13, // this is 'enter'
-    DELETE_CLIP: 68 // this is 'd'
+    DELETE_CLIP: 68, // this is 'd'
+    QUIT_APP: 81 // this is 'q'
 }

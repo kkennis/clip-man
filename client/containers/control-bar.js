@@ -4,7 +4,7 @@ const { updateSearch, goToAdd, goToSearch, moveFocusDown, addClip } = require('.
 const keycodes = require('../constants/keycodes');
 const AddControl = require('../components/add-control');
 const SearchControl = require('../components/search-control');
-
+const ipcRenderer = window.require('electron').ipcRenderer;
 
 class ControlBar extends React.Component {
     componentDidMount() {
@@ -30,13 +30,13 @@ class ControlBar extends React.Component {
             this.props.dispatch(goToAdd());
         } else if (event.keyCode === keycodes.TOGGLE_DOWN) {
             this.props.dispatch(moveFocusDown());
-        } else {
-            this.updateSearch(event);
+        } else if (event.ctrlKey && event.keyCode === keycodes.QUIT_APP) {
+            ipcRenderer.send('quit');
         }
     }
 
     updateSearch = (event) => {
-        const searchStr = event.target.value;
+        const searchStr = event.currentTarget.value;
         this.props.dispatch(updateSearch(searchStr));
     }
 
@@ -46,6 +46,8 @@ class ControlBar extends React.Component {
         } else if (event.keyCode === keycodes.SWITCH_FIELD) {
             event.preventDefault();
             this.valueRef === document.activeElement ? this.valueRef.focus() : this.keyRef.focus();
+        } else if (event.ctrlKey && event.keyCode === keycodes.QUIT_APP) {
+            ipcRenderer.send('quit');
         }
     }
 
@@ -60,11 +62,13 @@ class ControlBar extends React.Component {
                 addClip={this.addClip}
                 keyRef={(keyEl) => { this.keyRef = keyEl; }}
                 valueRef={(valueEl) => { this.valueRef = valueEl; }}
+                clipKeys={this.props.clips.map((clip) => clip.key)}
             />;
         } else {
             return <SearchControl
                 searchVal={this.props.search || ''}
                 onKeyUp={this.handleSearchKeyUp}
+                onChange={this.updateSearch}
                 searchRef={(searchEl) => { this.searchRef = searchEl; }}
             />;
         }
@@ -75,7 +79,8 @@ function mapStateToProps(state) {
     return {
         mode: state.mode,
         search: state.search,
-        focus: state.focus
+        focus: state.focus,
+        clips: state.clips
     };
 }
 
