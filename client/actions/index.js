@@ -1,3 +1,12 @@
+import {
+    GO_TO_ADD,
+    GO_TO_SEARCH,
+    MOVE_FOCUS_UP,
+    MOVE_FOCUS_DOWN,
+    UPDATE_SEARCH,
+    UPDATE_CLIPS
+} from '../constants/action-types';
+
 PouchDB.plugin(require('pouchdb-legacy-utils'));
 PouchDB.plugin(require('pouchdb-find'));
 const db = new PouchDB('clips');
