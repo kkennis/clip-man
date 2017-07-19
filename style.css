@@ -58,6 +58,7 @@ body {
     padding-bottom: 0.25em;
 }
 
-.add-item {
-    display: none;
+.error-text {
+    color: #CE311E;
+    font-size: 0.9em;
 }

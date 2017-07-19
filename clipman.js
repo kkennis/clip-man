@@ -1,10 +1,32 @@
+<<<<<<< HEAD
 const $ = require('./lib/jquery.min.js');
 const ClipStore = require('./clip-store');
 const copy = require('copy-to-clipboard');
 require('./do-puts')(db);
+=======
+const ReactDOM = require('react-dom');
+const React = require('react');
+const { createStore, applyMiddleware } = require('redux');
+const { Provider } = require('react-redux');
+const thunkMiddleware = require('redux-thunk').default;
+const App = require('./client/components/app');
+const reducers = require('./client/reducers');
 
-let currentClips;
+const store = createStore(
+    reducers,
+    applyMiddleware(thunkMiddleware)
+);
 
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('root')
+);
+>>>>>>> react
+
+
+<<<<<<< HEAD
 const HOTKEYS = {
     add: {
         char: 'n',
@@ -136,3 +158,5 @@ function handleInputHotkey(event) {
         })
     }
 }
+=======
+>>>>>>> react
