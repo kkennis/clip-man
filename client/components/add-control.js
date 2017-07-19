@@ -2,10 +2,10 @@ const React = require('react');
 const keycodes = require('../constants/keycodes')
 
 class AddControl extends React.Component {
-    state = { key: null, value: null };
+    state = { key: '', value: '' };
 
     componentWillMount() {
-        this.setState({ key: null, value: null });
+        this.setState({ key: '', value: '' });
     }
 
     updateForm = (event) => {
@@ -22,7 +22,7 @@ class AddControl extends React.Component {
 
     render() {
         return (
-            <div class='add-item' onKeyUp={this.onKeyUp}>
+            <div className='add-item' onKeyUp={this.onKeyUp}>
                 <input
                     id='new-key-input'
                     type='text'
@@ -30,6 +30,7 @@ class AddControl extends React.Component {
                     name='key'
                     value={this.state.key}
                     onChange={this.updateForm}
+                    ref={this.props.keyRef}
                 />
                 <textarea
                     id='new-val-input'
@@ -38,6 +39,7 @@ class AddControl extends React.Component {
                     name='value'
                     value={this.state.value}
                     onChange={this.updateForm}
+                    ref={this.props.valueRef}
                 />
             </div>
         );

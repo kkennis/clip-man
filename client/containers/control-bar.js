@@ -1,6 +1,6 @@
 const React = require('react');
 const { connect } = require('react-redux');
-const { updateSearch, goToAdd, goToSearch, moveFocusDown } = require('../actions');
+const { updateSearch, goToAdd, goToSearch, moveFocusDown, addClip } = require('../actions');
 const keycodes = require('../constants/keycodes');
 const AddControl = require('../components/add-control');
 const SearchControl = require('../components/search-control');
@@ -17,7 +17,11 @@ class ControlBar extends React.Component {
 
     _doFocus() {
         if (this.props.focus === null) {
-            this.searchRef.focus();
+            if (this.searchRef) {
+                this.searchRef.focus()
+            } else if (this.keyRef) {
+                this.keyRef.focus();
+            }
         }
     }
 
@@ -27,20 +31,21 @@ class ControlBar extends React.Component {
         } else if (event.keyCode === keycodes.TOGGLE_DOWN) {
             this.props.dispatch(moveFocusDown());
         } else {
-            console.log('Updating!!')
             this.updateSearch(event);
         }
     }
 
     updateSearch = (event) => {
         const searchStr = event.target.value;
-        console.log('Dis str', searchStr);
         this.props.dispatch(updateSearch(searchStr));
     }
 
     handleAddKeyUp = (event) => {
         if (event.keyCode === keycodes.GO_BACK) {
             this.props.dispatch(goToSearch());
+        } else if (event.keyCode === keycodes.SWITCH_FIELD) {
+            event.preventDefault();
+            this.valueRef === document.activeElement ? this.valueRef.focus() : this.keyRef.focus();
         }
     }
 
@@ -53,6 +58,8 @@ class ControlBar extends React.Component {
             return <AddControl
                 onKeyUp={this.handleAddKeyUp}
                 addClip={this.addClip}
+                keyRef={(keyEl) => { this.keyRef = keyEl; }}
+                valueRef={(valueEl) => { this.valueRef = valueEl; }}
             />;
         } else {
             return <SearchControl
