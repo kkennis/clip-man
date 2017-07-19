@@ -1,12 +1,18 @@
-const React = require('react');
-const { connect } = require('react-redux');
-const { updateSearch, goToAdd, goToSearch, moveFocusDown, addClip } = require('../actions');
-const keycodes = require('../constants/keycodes');
-const AddControl = require('../components/add-control');
-const SearchControl = require('../components/search-control');
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import {
+    updateSearch,
+    goToAdd,
+    goToSearch,
+    moveFocusDown,
+    addClip
+} from '../actions';
+import keycodes from '../constants/keycodes';
+import AddControl from '../components/add-control';
+import SearchControl from '../components/search-control';
 const ipcRenderer = window.require('electron').ipcRenderer;
 
-class ControlBar extends React.Component {
+class ControlBar extends Component {
     componentDidMount() {
         this._doFocus();
     }
@@ -84,4 +90,4 @@ function mapStateToProps(state) {
     };
 }
 
-module.exports = connect(mapStateToProps)(ControlBar);
+export default connect(mapStateToProps)(ControlBar);

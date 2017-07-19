@@ -5796,7 +5796,10 @@ function numToIndexableString(num) {
 "use strict";
 
 
-module.exports = {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
     ADD: 78, // this is 'n'
     SEARCH: 83, // this is 's'
     TOGGLE_DOWN: 40, // this is down arrow
@@ -13051,51 +13054,61 @@ function verifyPlainObject(value, displayName, methodName) {
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.goToAdd = goToAdd;
+exports.goToSearch = goToSearch;
+exports.moveFocusUp = moveFocusUp;
+exports.moveFocusDown = moveFocusDown;
+exports.updateSearch = updateSearch;
+exports.updateClips = updateClips;
+exports.loadClips = loadClips;
+exports.addClip = addClip;
+exports.removeClip = removeClip;
 PouchDB.plugin(__webpack_require__(251));
 PouchDB.plugin(__webpack_require__(257));
 var db = new PouchDB('clips');
 
-module.exports.goToAdd = function goToAdd() {
+function goToAdd() {
     return {
         type: 'GO_TO_ADD'
     };
-};
+}
 
-module.exports.goToSearch = function goToSearch() {
+function goToSearch() {
     return {
         type: 'GO_TO_SEARCH'
     };
-};
+}
 
-module.exports.moveFocusUp = function moveFocusUp() {
+function moveFocusUp() {
     return {
         type: 'MOVE_FOCUS_UP'
     };
-};
+}
 
-module.exports.moveFocusDown = function moveFocusDown() {
+function moveFocusDown() {
     return {
         type: 'MOVE_FOCUS_DOWN'
     };
-};
+}
 
-module.exports.updateSearch = function updateSearch(searchStr) {
+function updateSearch(searchStr) {
     return {
         type: 'UPDATE_SEARCH',
         searchStr: searchStr
     };
-};
+}
 
-module.exports.updateClips = function updateClips(clips) {
+function updateClips(clips) {
     return {
         type: 'UPDATE_CLIPS',
         clips: clips
     };
-};
+}
 
-module.exports.loadClips = function loadClips() {
-    var updateClips = module.exports.updateClips;
-
+function loadClips() {
     return function (dispatch) {
         db.allDocs({ include_docs: true }).then(function (results) {
             if (results.total_rows > 0) {
@@ -13107,14 +13120,11 @@ module.exports.loadClips = function loadClips() {
             }
         });
     };
-};
+}
 
-module.exports.addClip = function addClip(_ref) {
+function addClip(_ref) {
     var key = _ref.key,
         value = _ref.value;
-
-    var loadClips = module.exports.loadClips;
-    var goToSearch = module.exports.goToSearch;
 
     return function (dispatch) {
         db.put({
@@ -13126,20 +13136,18 @@ module.exports.addClip = function addClip(_ref) {
             dispatch(loadClips());
         });
     };
-};
+}
 
-module.exports.removeClip = function removeClip(_ref2) {
+function removeClip(_ref2) {
     var _id = _ref2._id,
         _rev = _ref2._rev;
-
-    var loadClips = module.exports.loadClips;
 
     return function (dispatch) {
         db.remove(_id, _rev).then(function () {
             return dispatch(loadClips());
         });
     };
-};
+}
 
 /***/ }),
 /* 107 */
@@ -15769,26 +15777,38 @@ module.exports = getIndexes;
 "use strict";
 
 
-var ReactDOM = __webpack_require__(121);
-var React = __webpack_require__(12);
+var _reactDom = __webpack_require__(121);
 
-var _require = __webpack_require__(57),
-    createStore = _require.createStore,
-    applyMiddleware = _require.applyMiddleware;
+var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _require2 = __webpack_require__(60),
-    Provider = _require2.Provider;
+var _react = __webpack_require__(12);
 
-var thunkMiddleware = __webpack_require__(248).default;
-var App = __webpack_require__(249);
-var reducers = __webpack_require__(279);
+var _react2 = _interopRequireDefault(_react);
 
-var store = createStore(reducers, applyMiddleware(thunkMiddleware));
+var _redux = __webpack_require__(57);
 
-ReactDOM.render(React.createElement(
-    Provider,
+var _reactRedux = __webpack_require__(60);
+
+var _reduxThunk = __webpack_require__(248);
+
+var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
+
+var _app = __webpack_require__(249);
+
+var _app2 = _interopRequireDefault(_app);
+
+var _reducers = __webpack_require__(279);
+
+var _reducers2 = _interopRequireDefault(_reducers);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var store = (0, _redux.createStore)(_reducers2.default, (0, _redux.applyMiddleware)(_reduxThunk2.default));
+
+_reactDom2.default.render(_react2.default.createElement(
+    _reactRedux.Provider,
     { store: store },
-    React.createElement(App, null)
+    _react2.default.createElement(_app2.default, null)
 ), document.getElementById('root'));
 
 /***/ }),
@@ -29367,7 +29387,33 @@ exports['default'] = thunk;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(12);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _controlBar = __webpack_require__(250);
+
+var _controlBar2 = _interopRequireDefault(_controlBar);
+
+var _clipsList = __webpack_require__(274);
+
+var _clipsList2 = _interopRequireDefault(_clipsList);
+
+var _keycodes = __webpack_require__(38);
+
+var _keycodes2 = _interopRequireDefault(_keycodes);
+
+var _help = __webpack_require__(278);
+
+var _help2 = _interopRequireDefault(_help);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -29375,14 +29421,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var React = __webpack_require__(12);
-var ControlBar = __webpack_require__(250);
-var ClipsList = __webpack_require__(274);
-var keycodes = __webpack_require__(38);
-var Help = __webpack_require__(278);
-
-var App = function (_React$Component) {
-    _inherits(App, _React$Component);
+var App = function (_Component) {
+    _inherits(App, _Component);
 
     function App() {
         var _ref;
@@ -29400,9 +29440,9 @@ var App = function (_React$Component) {
         }, _this.goToApp = function () {
             _this.setState({ view: 'app' });
         }, _this.watchHelpHotkey = function (event) {
-            if (event.ctrlKey && event.keyCode === keycodes.HELP) {
+            if (event.ctrlKey && event.keyCode === _keycodes2.default.HELP) {
                 _this.state.view === 'app' ? _this.goToHelp() : _this.goToApp();
-            } else if (_this.state.view === 'help' && event.keyCode === keycodes.GO_BACK) {
+            } else if (_this.state.view === 'help' && event.keyCode === _keycodes2.default.GO_BACK) {
                 _this.goToApp();
             }
         }, _temp), _possibleConstructorReturn(_this, _ret);
@@ -29421,25 +29461,25 @@ var App = function (_React$Component) {
             var _this2 = this;
 
             if (this.state.view === 'app') {
-                return React.createElement(
+                return _react2.default.createElement(
                     'div',
                     { className: 'app-container', onKeyDown: this.watchHelpHotkey },
-                    React.createElement(ControlBar, null),
-                    React.createElement(ClipsList, null),
-                    React.createElement(
+                    _react2.default.createElement(_controlBar2.default, null),
+                    _react2.default.createElement(_clipsList2.default, null),
+                    _react2.default.createElement(
                         'div',
                         { className: 'help-toggle-icon', onClick: this.goToHelp },
                         '?'
                     )
                 );
             } else {
-                return React.createElement(
+                return _react2.default.createElement(
                     'div',
                     { className: 'app-container', tabIndex: '1', onKeyDown: this.watchHelpHotkey, ref: function ref(helpDiv) {
                             _this2.helpDiv = helpDiv;
                         } },
-                    React.createElement(Help, null),
-                    React.createElement(
+                    _react2.default.createElement(_help2.default, null),
+                    _react2.default.createElement(
                         'div',
                         { className: 'help-toggle-icon', onClick: this.goToApp },
                         '\u27F2'
@@ -29450,9 +29490,9 @@ var App = function (_React$Component) {
     }]);
 
     return App;
-}(React.Component);
+}(_react.Component);
 
-module.exports = App;
+exports.default = App;
 
 /***/ }),
 /* 250 */
@@ -29461,7 +29501,33 @@ module.exports = App;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(12);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(60);
+
+var _actions = __webpack_require__(106);
+
+var _keycodes = __webpack_require__(38);
+
+var _keycodes2 = _interopRequireDefault(_keycodes);
+
+var _addControl = __webpack_require__(272);
+
+var _addControl2 = _interopRequireDefault(_addControl);
+
+var _searchControl = __webpack_require__(273);
+
+var _searchControl2 = _interopRequireDefault(_searchControl);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -29469,25 +29535,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var React = __webpack_require__(12);
-
-var _require = __webpack_require__(60),
-    connect = _require.connect;
-
-var _require2 = __webpack_require__(106),
-    updateSearch = _require2.updateSearch,
-    goToAdd = _require2.goToAdd,
-    goToSearch = _require2.goToSearch,
-    moveFocusDown = _require2.moveFocusDown,
-    addClip = _require2.addClip;
-
-var keycodes = __webpack_require__(38);
-var AddControl = __webpack_require__(272);
-var SearchControl = __webpack_require__(273);
 var ipcRenderer = window.require('electron').ipcRenderer;
 
-var ControlBar = function (_React$Component) {
-    _inherits(ControlBar, _React$Component);
+var ControlBar = function (_Component) {
+    _inherits(ControlBar, _Component);
 
     function ControlBar() {
         var _ref;
@@ -29501,27 +29552,27 @@ var ControlBar = function (_React$Component) {
         }
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ControlBar.__proto__ || Object.getPrototypeOf(ControlBar)).call.apply(_ref, [this].concat(args))), _this), _this.handleSearchKeyUp = function (event) {
-            if (event.ctrlKey && event.keyCode === keycodes.ADD) {
-                _this.props.dispatch(goToAdd());
-            } else if (event.keyCode === keycodes.TOGGLE_DOWN) {
-                _this.props.dispatch(moveFocusDown());
-            } else if (event.ctrlKey && event.keyCode === keycodes.QUIT_APP) {
+            if (event.ctrlKey && event.keyCode === _keycodes2.default.ADD) {
+                _this.props.dispatch((0, _actions.goToAdd)());
+            } else if (event.keyCode === _keycodes2.default.TOGGLE_DOWN) {
+                _this.props.dispatch((0, _actions.moveFocusDown)());
+            } else if (event.ctrlKey && event.keyCode === _keycodes2.default.QUIT_APP) {
                 ipcRenderer.send('quit');
             }
         }, _this.updateSearch = function (event) {
             var searchStr = event.currentTarget.value;
-            _this.props.dispatch(updateSearch(searchStr));
+            _this.props.dispatch((0, _actions.updateSearch)(searchStr));
         }, _this.handleAddKeyUp = function (event) {
-            if (event.keyCode === keycodes.GO_BACK) {
-                _this.props.dispatch(goToSearch());
-            } else if (event.keyCode === keycodes.SWITCH_FIELD) {
+            if (event.keyCode === _keycodes2.default.GO_BACK) {
+                _this.props.dispatch((0, _actions.goToSearch)());
+            } else if (event.keyCode === _keycodes2.default.SWITCH_FIELD) {
                 event.preventDefault();
                 _this.valueRef === document.activeElement ? _this.valueRef.focus() : _this.keyRef.focus();
-            } else if (event.ctrlKey && event.keyCode === keycodes.QUIT_APP) {
+            } else if (event.ctrlKey && event.keyCode === _keycodes2.default.QUIT_APP) {
                 ipcRenderer.send('quit');
             }
         }, _this.addClip = function (clipData) {
-            _this.props.dispatch(addClip(clipData));
+            _this.props.dispatch((0, _actions.addClip)(clipData));
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -29552,7 +29603,7 @@ var ControlBar = function (_React$Component) {
             var _this2 = this;
 
             if (this.props.mode === 'add') {
-                return React.createElement(AddControl, {
+                return _react2.default.createElement(_addControl2.default, {
                     onKeyUp: this.handleAddKeyUp,
                     addClip: this.addClip,
                     keyRef: function keyRef(keyEl) {
@@ -29566,7 +29617,7 @@ var ControlBar = function (_React$Component) {
                     })
                 });
             } else {
-                return React.createElement(SearchControl, {
+                return _react2.default.createElement(_searchControl2.default, {
                     searchVal: this.props.search || '',
                     onKeyUp: this.handleSearchKeyUp,
                     onChange: this.updateSearch,
@@ -29579,7 +29630,7 @@ var ControlBar = function (_React$Component) {
     }]);
 
     return ControlBar;
-}(React.Component);
+}(_react.Component);
 
 function mapStateToProps(state) {
     return {
@@ -29590,7 +29641,7 @@ function mapStateToProps(state) {
     };
 }
 
-module.exports = connect(mapStateToProps)(ControlBar);
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(ControlBar);
 
 /***/ }),
 /* 251 */
@@ -32817,7 +32868,21 @@ module.exports = deleteIndex;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(12);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _keycodes = __webpack_require__(38);
+
+var _keycodes2 = _interopRequireDefault(_keycodes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -32827,11 +32892,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var React = __webpack_require__(12);
-var keycodes = __webpack_require__(38);
-
-var AddControl = function (_React$Component) {
-    _inherits(AddControl, _React$Component);
+var AddControl = function (_Component) {
+    _inherits(AddControl, _Component);
 
     function AddControl() {
         var _ref;
@@ -32847,7 +32909,7 @@ var AddControl = function (_React$Component) {
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = AddControl.__proto__ || Object.getPrototypeOf(AddControl)).call.apply(_ref, [this].concat(args))), _this), _this.state = { key: '', value: '', error: null }, _this.updateForm = function (event) {
             _this.setState(_defineProperty({}, event.target.name, event.target.value));
         }, _this.onKeyUp = function (event) {
-            if (event.ctrlKey && event.keyCode === keycodes.SUBMIT_FORM) {
+            if (event.ctrlKey && event.keyCode === _keycodes2.default.SUBMIT_FORM) {
                 var validation = _this._validateInput();
 
                 if (validation.valid) {
@@ -32890,16 +32952,16 @@ var AddControl = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            return React.createElement(
+            return _react2.default.createElement(
                 'div',
                 { className: 'add-item', onKeyUp: this.onKeyUp },
-                this.state.error && React.createElement(
+                this.state.error && _react2.default.createElement(
                     'p',
                     { className: 'error-text' },
                     'Error: ',
                     this.state.error
                 ),
-                React.createElement('input', {
+                _react2.default.createElement('input', {
                     id: 'new-key-input',
                     type: 'text',
                     placeholder: 'Key',
@@ -32908,7 +32970,7 @@ var AddControl = function (_React$Component) {
                     onChange: this.updateForm,
                     ref: this.props.keyRef
                 }),
-                React.createElement('textarea', {
+                _react2.default.createElement('textarea', {
                     id: 'new-val-input',
                     rows: '3',
                     placeholder: 'Value',
@@ -32922,9 +32984,9 @@ var AddControl = function (_React$Component) {
     }]);
 
     return AddControl;
-}(React.Component);
+}(_react.Component);
 
-module.exports = AddControl;
+exports.default = AddControl;
 
 /***/ }),
 /* 273 */
@@ -32933,17 +32995,25 @@ module.exports = AddControl;
 "use strict";
 
 
-var React = __webpack_require__(12);
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
-var SearchControl = function SearchControl(_ref) {
+var _react = __webpack_require__(12);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (_ref) {
     var searchVal = _ref.searchVal,
         onKeyUp = _ref.onKeyUp,
         onChange = _ref.onChange,
         searchRef = _ref.searchRef;
-    return React.createElement(
+    return _react2.default.createElement(
         'div',
         { className: 'input-line' },
-        React.createElement('input', {
+        _react2.default.createElement('input', {
             id: 'key-input',
             type: 'text',
             value: searchVal,
@@ -32954,8 +33024,6 @@ var SearchControl = function SearchControl(_ref) {
     );
 };
 
-module.exports = SearchControl;
-
 /***/ }),
 /* 274 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -32963,7 +33031,33 @@ module.exports = SearchControl;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(12);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(60);
+
+var _copyToClipboard = __webpack_require__(275);
+
+var _copyToClipboard2 = _interopRequireDefault(_copyToClipboard);
+
+var _clip = __webpack_require__(277);
+
+var _clip2 = _interopRequireDefault(_clip);
+
+var _actions = __webpack_require__(106);
+
+var _keycodes = __webpack_require__(38);
+
+var _keycodes2 = _interopRequireDefault(_keycodes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -32971,27 +33065,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var React = __webpack_require__(12);
-
-var _require = __webpack_require__(60),
-    connect = _require.connect;
-
-var copy = __webpack_require__(275);
-var Clip = __webpack_require__(277);
-
-var _require2 = __webpack_require__(106),
-    loadClips = _require2.loadClips,
-    goToAdd = _require2.goToAdd,
-    goToSearch = _require2.goToSearch,
-    moveFocusDown = _require2.moveFocusDown,
-    moveFocusUp = _require2.moveFocusUp,
-    removeClip = _require2.removeClip;
-
-var keycodes = __webpack_require__(38);
 var ipcRenderer = window.require('electron').ipcRenderer;
 
-var ClipsList = function (_React$Component) {
-    _inherits(ClipsList, _React$Component);
+var ClipsList = function (_Component) {
+    _inherits(ClipsList, _Component);
 
     function ClipsList() {
         var _ref;
@@ -33006,31 +33083,31 @@ var ClipsList = function (_React$Component) {
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ClipsList.__proto__ || Object.getPrototypeOf(ClipsList)).call.apply(_ref, [this].concat(args))), _this), _this.clipRefs = [], _this.handleListKeyUp = function (event) {
             if (event.ctrlKey) {
-                if (event.keyCode === keycodes.ADD) {
-                    _this.props.dispatch(goToAdd());
-                } else if (event.keyCode === keycodes.SEARCH) {
-                    _this.props.dispatch(goToSearch());
-                } else if (event.keyCode === keycodes.DELETE_CLIP) {
+                if (event.keyCode === _keycodes2.default.ADD) {
+                    _this.props.dispatch((0, _actions.goToAdd)());
+                } else if (event.keyCode === _keycodes2.default.SEARCH) {
+                    _this.props.dispatch((0, _actions.goToSearch)());
+                } else if (event.keyCode === _keycodes2.default.DELETE_CLIP) {
                     var clipData = _this.clipRefs[_this.props.focus].data;
-                    _this.props.dispatch(removeClip(clipData));
-                } else if (event.keyCode === keycodes.QUIT_APP) {
+                    _this.props.dispatch((0, _actions.removeClip)(clipData));
+                } else if (event.keyCode === _keycodes2.default.QUIT_APP) {
                     ipcRenderer.send('quit');
                 }
             } else {
-                if (event.keyCode === keycodes.COPY_CLIP) {
+                if (event.keyCode === _keycodes2.default.COPY_CLIP) {
                     _this._doCopy(event);
-                } else if (event.keyCode === keycodes.TOGGLE_DOWN && _this.props.focus < _this.clipRefs.length - 1) {
-                    _this.props.dispatch(moveFocusDown());
-                } else if (event.keyCode === keycodes.TOGGLE_UP) {
-                    _this.props.dispatch(moveFocusUp());
-                } else if (event.keyCode === keycodes.GO_BACK) {
-                    _this.props.dispatch(goToSearch());
+                } else if (event.keyCode === _keycodes2.default.TOGGLE_DOWN && _this.props.focus < _this.clipRefs.length - 1) {
+                    _this.props.dispatch((0, _actions.moveFocusDown)());
+                } else if (event.keyCode === _keycodes2.default.TOGGLE_UP) {
+                    _this.props.dispatch((0, _actions.moveFocusUp)());
+                } else if (event.keyCode === _keycodes2.default.GO_BACK) {
+                    _this.props.dispatch((0, _actions.goToSearch)());
                 }
             }
         }, _this._doCopy = function (event) {
             var value = _this.clipRefs[_this.props.focus].data.value;
 
-            copy(value);
+            (0, _copyToClipboard2.default)(value);
             event.target.blur();
             ipcRenderer.send('selected');
         }, _temp), _possibleConstructorReturn(_this, _ret);
@@ -33039,7 +33116,7 @@ var ClipsList = function (_React$Component) {
     _createClass(ClipsList, [{
         key: 'componentWillMount',
         value: function componentWillMount() {
-            this.props.dispatch(loadClips());
+            this.props.dispatch((0, _actions.loadClips)());
         }
     }, {
         key: 'componentWillUpdate',
@@ -33069,10 +33146,10 @@ var ClipsList = function (_React$Component) {
             var _this2 = this;
 
             if (this.props.clips.length === 0) {
-                return React.createElement(
+                return _react2.default.createElement(
                     'div',
                     { className: 'clip-container' },
-                    React.createElement(
+                    _react2.default.createElement(
                         'h4',
                         { className: 'no-clips' },
                         'No clips yet. Add some!'
@@ -33080,7 +33157,7 @@ var ClipsList = function (_React$Component) {
                 );
             } else {
                 var clips = this.props.clips.map(function (clip, index) {
-                    return React.createElement(Clip, {
+                    return _react2.default.createElement(_clip2.default, {
                         key: index,
                         clip: clip,
                         clipRef: function clipRef(clipEl) {
@@ -33089,7 +33166,7 @@ var ClipsList = function (_React$Component) {
                     });
                 });
 
-                return React.createElement(
+                return _react2.default.createElement(
                     'div',
                     { className: 'clip-container', onKeyUp: this.handleListKeyUp },
                     clips
@@ -33099,7 +33176,7 @@ var ClipsList = function (_React$Component) {
     }]);
 
     return ClipsList;
-}(React.Component);
+}(_react.Component);
 
 function mapStateToProps(state) {
     var clips = state.search ? state.clips.filter(function (clip) {
@@ -33112,7 +33189,7 @@ function mapStateToProps(state) {
     };
 };
 
-module.exports = connect(mapStateToProps)(ClipsList);
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(ClipsList);
 
 /***/ }),
 /* 275 */
@@ -33257,28 +33334,34 @@ module.exports = function () {
 "use strict";
 
 
-var React = __webpack_require__(12);
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
-var Clip = function Clip(_ref) {
+var _react = __webpack_require__(12);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (_ref) {
     var clip = _ref.clip,
         clipRef = _ref.clipRef;
-    return React.createElement(
+    return _react2.default.createElement(
         'div',
         { className: 'item', tabIndex: '0', id: 'clip-' + clip._id, ref: clipRef },
-        React.createElement(
+        _react2.default.createElement(
             'h4',
             { className: 'item-header' },
             clip.key
         ),
-        React.createElement(
+        _react2.default.createElement(
             'p',
             { className: 'item-value' },
             clip.value
         )
     );
 };
-
-module.exports = Clip;
 
 /***/ }),
 /* 278 */
@@ -33287,51 +33370,59 @@ module.exports = Clip;
 "use strict";
 
 
-var React = __webpack_require__(12);
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
-var Help = function Help() {
-    return React.createElement(
+var _react = __webpack_require__(12);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function () {
+    return _react2.default.createElement(
         'div',
         null,
-        React.createElement(
+        _react2.default.createElement(
             'h3',
             null,
             'Help'
         ),
-        React.createElement(
+        _react2.default.createElement(
             'h4',
             null,
             'When Searching'
         ),
-        React.createElement(
+        _react2.default.createElement(
             'ul',
             null,
-            React.createElement(
+            _react2.default.createElement(
                 'li',
                 null,
-                React.createElement(
+                _react2.default.createElement(
                     'strong',
                     null,
                     'Type'
                 ),
                 ' to filter the list of clips.'
             ),
-            React.createElement(
+            _react2.default.createElement(
                 'li',
                 null,
                 'Press ',
-                React.createElement(
+                _react2.default.createElement(
                     'strong',
                     null,
                     'Down'
                 ),
                 ' to start scrolling through clips. Best used after typing in a filter.'
             ),
-            React.createElement(
+            _react2.default.createElement(
                 'li',
                 null,
                 'Press ',
-                React.createElement(
+                _react2.default.createElement(
                     'strong',
                     null,
                     'Ctrl+N'
@@ -33339,40 +33430,40 @@ var Help = function Help() {
                 ' to begin adding a new clip.'
             )
         ),
-        React.createElement(
+        _react2.default.createElement(
             'h4',
             null,
             'When Adding'
         ),
-        React.createElement(
+        _react2.default.createElement(
             'ul',
             null,
-            React.createElement(
+            _react2.default.createElement(
                 'li',
                 null,
-                React.createElement(
+                _react2.default.createElement(
                     'strong',
                     null,
                     'Type'
                 ),
                 ' to complete the required fields.'
             ),
-            React.createElement(
+            _react2.default.createElement(
                 'li',
                 null,
                 'Press ',
-                React.createElement(
+                _react2.default.createElement(
                     'strong',
                     null,
                     'Tab'
                 ),
                 ' to switch between the \'Key\' and \'Value\' inputs.'
             ),
-            React.createElement(
+            _react2.default.createElement(
                 'li',
                 null,
                 'Press ',
-                React.createElement(
+                _react2.default.createElement(
                     'strong',
                     null,
                     'Ctrl+Enter'
@@ -33380,58 +33471,58 @@ var Help = function Help() {
                 ' to save the new clip.'
             )
         ),
-        React.createElement(
+        _react2.default.createElement(
             'h4',
             null,
             'When Browsing'
         ),
-        React.createElement(
+        _react2.default.createElement(
             'ul',
             null,
-            React.createElement(
+            _react2.default.createElement(
                 'li',
                 null,
                 'Press ',
-                React.createElement(
+                _react2.default.createElement(
                     'strong',
                     null,
                     'Up'
                 ),
                 ' and ',
-                React.createElement(
+                _react2.default.createElement(
                     'strong',
                     null,
                     'Down'
                 ),
                 ' to navigate through the list of clips.'
             ),
-            React.createElement(
+            _react2.default.createElement(
                 'li',
                 null,
                 'Press ',
-                React.createElement(
+                _react2.default.createElement(
                     'strong',
                     null,
                     'Enter'
                 ),
                 ' to copy the clip to your clipboard and hide the Clip Man window.'
             ),
-            React.createElement(
+            _react2.default.createElement(
                 'li',
                 null,
                 'Press ',
-                React.createElement(
+                _react2.default.createElement(
                     'strong',
                     null,
                     'Ctrl+D'
                 ),
                 ' to delete the highlighted clip.'
             ),
-            React.createElement(
+            _react2.default.createElement(
                 'li',
                 null,
                 'Press ',
-                React.createElement(
+                _react2.default.createElement(
                     'strong',
                     null,
                     'Ctrl+S'
@@ -33439,41 +33530,41 @@ var Help = function Help() {
                 ' to jump back to search.'
             )
         ),
-        React.createElement(
+        _react2.default.createElement(
             'h4',
             null,
             'Global'
         ),
-        React.createElement(
+        _react2.default.createElement(
             'ul',
             null,
-            React.createElement(
+            _react2.default.createElement(
                 'li',
                 null,
                 'Press ',
-                React.createElement(
+                _react2.default.createElement(
                     'strong',
                     null,
                     'Ctrl+H'
                 ),
                 ' to toggle this help menu.'
             ),
-            React.createElement(
+            _react2.default.createElement(
                 'li',
                 null,
                 'Press ',
-                React.createElement(
+                _react2.default.createElement(
                     'strong',
                     null,
                     'Esc'
                 ),
                 ' to go back. When searching, this will hide the Clip Man window.'
             ),
-            React.createElement(
+            _react2.default.createElement(
                 'li',
                 null,
                 'Press ',
-                React.createElement(
+                _react2.default.createElement(
                     'strong',
                     null,
                     'Ctrl+Q'
@@ -33484,8 +33575,6 @@ var Help = function Help() {
     );
 };
 
-module.exports = Help;
-
 /***/ }),
 /* 279 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -33493,19 +33582,35 @@ module.exports = Help;
 "use strict";
 
 
-var _require = __webpack_require__(57),
-    combineReducers = _require.combineReducers;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
-var modeReducer = __webpack_require__(280);
-var clipsReducer = __webpack_require__(281);
-var searchReducer = __webpack_require__(282);
-var focusReducer = __webpack_require__(283);
+var _redux = __webpack_require__(57);
 
-module.exports = combineReducers({
-    mode: modeReducer,
-    clips: clipsReducer,
-    search: searchReducer,
-    focus: focusReducer
+var _mode = __webpack_require__(280);
+
+var _mode2 = _interopRequireDefault(_mode);
+
+var _clips = __webpack_require__(281);
+
+var _clips2 = _interopRequireDefault(_clips);
+
+var _search = __webpack_require__(282);
+
+var _search2 = _interopRequireDefault(_search);
+
+var _focus = __webpack_require__(283);
+
+var _focus2 = _interopRequireDefault(_focus);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = (0, _redux.combineReducers)({
+    mode: _mode2.default,
+    clips: _clips2.default,
+    search: _search2.default,
+    focus: _focus2.default
 });
 
 /***/ }),
@@ -33515,6 +33620,10 @@ module.exports = combineReducers({
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = mode;
 function mode() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'search';
     var action = arguments[1];
@@ -33529,8 +33638,6 @@ function mode() {
     }
 }
 
-module.exports = mode;
-
 /***/ }),
 /* 281 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -33538,6 +33645,10 @@ module.exports = mode;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = clips;
 function clips() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     var action = arguments[1];
@@ -33550,8 +33661,6 @@ function clips() {
     }
 }
 
-module.exports = clips;
-
 /***/ }),
 /* 282 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -33559,6 +33668,10 @@ module.exports = clips;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = search;
 function search() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var action = arguments[1];
@@ -33571,8 +33684,6 @@ function search() {
     }
 }
 
-module.exports = search;
-
 /***/ }),
 /* 283 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -33580,6 +33691,10 @@ module.exports = search;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = focus;
 function focus() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var action = arguments[1];
@@ -33595,8 +33710,6 @@ function focus() {
             return state;
     }
 }
-
-module.exports = focus;
 
 /***/ })
 /******/ ]);

@@ -1,12 +1,10 @@
-var puts = {
+const puts = {
     "hello": "goodbye",
     "secret code": "up up down down left right left right b a",
     "greeting": "Well howdy there pard'na!!",
     "hola": "adios",
     "bonjour": "au revior",
-}
-
-
+};
 
 function doPuts(db) {
     Promise.resolve()
@@ -20,4 +18,4 @@ function doPuts(db) {
         .then(() => console.log('Did puts'))
 }
 
-module.exports = doPuts;
+export default doPuts;

@@ -1,7 +1,7 @@
-const React = require('react');
-const keycodes = require('../constants/keycodes')
+import React, { Component } from 'react';
+import keycodes from '../constants/keycodes';
 
-class AddControl extends React.Component {
+export default class AddControl extends Component {
     state = { key: '', value: '', error: null };
 
     componentWillMount() {
@@ -78,5 +78,3 @@ class AddControl extends React.Component {
     }
 }
 
-
-module.exports = AddControl;

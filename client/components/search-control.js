@@ -1,6 +1,6 @@
-const React = require('react');
+import React from 'react';
 
-const SearchControl = ({ searchVal, onKeyUp, onChange, searchRef }) => (
+export default ({ searchVal, onKeyUp, onChange, searchRef }) => (
     <div className='input-line'>
         <input
             id='key-input'
@@ -12,5 +12,3 @@ const SearchControl = ({ searchVal, onKeyUp, onChange, searchRef }) => (
         />
     </div>
 );
-
-module.exports = SearchControl;

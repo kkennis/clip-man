@@ -1,12 +1,19 @@
-const React = require('react');
-const { connect } = require('react-redux');
-const copy = require('copy-to-clipboard');
-const Clip = require('../components/clip');
-const { loadClips, goToAdd, goToSearch, moveFocusDown, moveFocusUp, removeClip } = require('../actions');
-const keycodes = require('../constants/keycodes')
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import copy from 'copy-to-clipboard';
+import Clip from '../components/clip';
+import {
+    loadClips,
+    goToAdd,
+    goToSearch,
+    moveFocusDown,
+    moveFocusUp,
+    removeClip
+} from '../actions';
+import keycodes from '../constants/keycodes';
 const ipcRenderer = window.require('electron').ipcRenderer;
 
-class ClipsList extends React.Component {
+class ClipsList extends Component {
     clipRefs = [];
 
     componentWillMount() {
@@ -100,4 +107,4 @@ function mapStateToProps(state) {
     };
 };
 
-module.exports = connect(mapStateToProps)(ClipsList);
+export default connect(mapStateToProps)(ClipsList);

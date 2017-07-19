@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     ADD: 78, // this is 'n'
     SEARCH: 83, // this is 's'
     TOGGLE_DOWN: 40, // this is down arrow

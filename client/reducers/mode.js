@@ -1,4 +1,4 @@
-function mode(state = 'search', action) {
+export default function mode(state = 'search', action) {
     switch (action.type) {
     case 'GO_TO_ADD':
         return 'add';
@@ -8,5 +8,3 @@ function mode(state = 'search', action) {
         return state;
     }
 }
-
-module.exports = mode;

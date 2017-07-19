@@ -1,4 +1,4 @@
-function clips(state = [], action) {
+export default function clips(state = [], action) {
     switch (action.type) {
     case 'UPDATE_CLIPS':
         return action.clips;
@@ -6,5 +6,3 @@ function clips(state = [], action) {
         return state;
     }
 }
-
-module.exports = clips;

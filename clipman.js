@@ -1,10 +1,10 @@
-const ReactDOM = require('react-dom');
-const React = require('react');
-const { createStore, applyMiddleware } = require('redux');
-const { Provider } = require('react-redux');
-const thunkMiddleware = require('redux-thunk').default;
-const App = require('./client/components/app');
-const reducers = require('./client/reducers');
+import ReactDOM from 'react-dom';
+import React from 'react';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunkMiddleware from 'redux-thunk';
+import App from './client/components/app';
+import reducers from './client/reducers';
 
 const store = createStore(
     reducers,

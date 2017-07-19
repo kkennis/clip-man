@@ -1,4 +1,4 @@
-function search(state = null, action) {
+export default function search(state = null, action) {
     switch (action.type) {
     case 'UPDATE_SEARCH':
         return action.searchStr || null;
@@ -6,5 +6,3 @@ function search(state = null, action) {
         return state;
     }
 }
-
-module.exports = search;

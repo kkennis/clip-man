@@ -1,4 +1,4 @@
-function focus(state = null, action) {
+export default function focus(state = null, action) {
     switch (action.type) {
     case 'MOVE_FOCUS_DOWN':
         return state !== null ? state + 1 : 0;
@@ -10,5 +10,3 @@ function focus(state = null, action) {
         return state;
     }
 }
-
-module.exports = focus;

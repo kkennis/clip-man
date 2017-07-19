@@ -1,10 +1,10 @@
-const { combineReducers } = require('redux');
-const modeReducer = require('./mode');
-const clipsReducer = require('./clips');
-const searchReducer = require('./search');
-const focusReducer = require('./focus');
+import { combineReducers } from 'redux';
+import modeReducer from './mode';
+import clipsReducer from './clips';
+import searchReducer from './search';
+import focusReducer from './focus';
 
-module.exports = combineReducers({
+export default combineReducers({
     mode: modeReducer,
     clips: clipsReducer,
     search: searchReducer,

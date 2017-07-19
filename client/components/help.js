@@ -1,6 +1,6 @@
-const React = require('react');
+import React from 'react';
 
-const Help = () => (
+export default () => (
     <div>
         <h3>Help</h3>
         <h4>When Searching</h4>
@@ -31,4 +31,3 @@ const Help = () => (
     </div>
 );
 
-module.exports = Help;

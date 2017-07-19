@@ -1,10 +1,10 @@
-const React = require('react');
-const ControlBar = require('../containers/control-bar');
-const ClipsList = require('../containers/clips-list');
-const keycodes = require('../constants/keycodes');
-const Help = require('./help');
+import React, { Component } from 'react';
+import ControlBar from '../containers/control-bar';
+import ClipsList from '../containers/clips-list';
+import keycodes from '../constants/keycodes';
+import Help from './help';
 
-class App extends React.Component {
+export default class App extends Component {
     state = { view: 'app' };
 
     componentDidUpdate() {
@@ -12,7 +12,6 @@ class App extends React.Component {
             this.helpDiv.focus();
         }
     }
-
 
     goToHelp = () => {
         this.setState({ view: 'help' })
@@ -51,6 +50,3 @@ class App extends React.Component {
         }
     }
 }
-
-
-module.exports = App;

@@ -2,48 +2,46 @@ PouchDB.plugin(require('pouchdb-legacy-utils'));
 PouchDB.plugin(require('pouchdb-find'));
 const db = new PouchDB('clips');
 
-module.exports.goToAdd = function goToAdd() {
+export function goToAdd() {
     return {
         type: 'GO_TO_ADD'
     }
 }
 
-module.exports.goToSearch = function goToSearch() {
+export function goToSearch() {
     return {
         type: 'GO_TO_SEARCH'
     }
 }
 
 
-module.exports.moveFocusUp = function moveFocusUp() {
+export function moveFocusUp() {
     return {
         type: 'MOVE_FOCUS_UP'
     }
 }
 
-module.exports.moveFocusDown = function moveFocusDown() {
+export function moveFocusDown() {
     return {
         type: 'MOVE_FOCUS_DOWN'
     }
 }
 
-module.exports.updateSearch = function updateSearch(searchStr) {
+export function updateSearch(searchStr) {
     return {
         type: 'UPDATE_SEARCH',
         searchStr: searchStr
     }
 }
 
-module.exports.updateClips = function updateClips(clips) {
+export function updateClips(clips) {
     return {
         type: 'UPDATE_CLIPS',
         clips: clips
     }
 }
 
-module.exports.loadClips = function loadClips() {
-    const updateClips = module.exports.updateClips;
-
+export function loadClips() {
     return (dispatch) => {
         db.allDocs({ include_docs: true })
             .then((results) => {
@@ -56,10 +54,7 @@ module.exports.loadClips = function loadClips() {
     }
 }
 
-module.exports.addClip = function addClip({ key, value }) {
-    const loadClips = module.exports.loadClips;
-    const goToSearch = module.exports.goToSearch;
-
+export function addClip({ key, value }) {
     return (dispatch) => {
         db.put({
             _id: new Date().toJSON(),
@@ -73,9 +68,7 @@ module.exports.addClip = function addClip({ key, value }) {
     }
 }
 
-module.exports.removeClip = function removeClip({ _id, _rev }) {
-    const loadClips = module.exports.loadClips;
-
+export function removeClip({ _id, _rev }) {
     return (dispatch) => {
         db.remove(_id, _rev)
             .then(() =>
