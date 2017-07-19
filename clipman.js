@@ -1,22 +1,31 @@
 const $ = require('./lib/jquery.min.js');
-PouchDB.plugin(require('pouchdb-legacy-utils'));
-PouchDB.plugin(require('pouchdb-find'));
-const db = new PouchDB('clips');
+const ClipStore = require('./clip-store');
 const copy = require('copy-to-clipboard');
-// require('./do-puts')(db)
+require('./do-puts')(db);
 
 let currentClips;
 
+const HOTKEYS = {
+    add: {
+        char: 'n',
+        keycode: 78
+    }
+}
+
+const isShortcut = (action) => (event) => event.ctrlKey && event.keyCode === HOTKEYS[action].keycode;
+const isAddShortcut = isShortcut('add');
+
 $(document).ready(function() {
-    // db.createIndex({
-    //     index: { fields: ['key'] }
-    // })
     Promise.resolve()
-    .then(init);
+        .then(init);
 });
 
-function init() {
-    populateKeys();
+async function init() {
+    const store = new ClipStore(db);
+    const allClips = await store._loadClips();
+
+    drawInitialList(allClips);
+
 
     let $search = $('#key-input');
     $search.focus();
@@ -28,12 +37,12 @@ function init() {
 }
 
 function populateKeys() {
-    db.allDocs({ include_docs: true, limit: 10 })
+    db.allDocs({ include_docs: true })
         .then(drawInitial)
 }
 
 function updateResults(event) {
-    if (event.ctrlKey && event.keyCode === 78) {
+    if (isAddShortcut(event)) {
         showAdd();
     } else {
         let inputVal = $(event.target).val();
@@ -50,12 +59,12 @@ function updateResults(event) {
 }
 
 function drawResults(results) {
-    currentClips = results.docs
+    currentClips = results.docs;
     drawClips();
 }
 
-function drawInitial(results) {
-    if (results.total_rows > 0) {
+function drawInitialList(clips) {
+    if (clips.length > 0) {
         currentClips = results.rows.map((r) => r.doc);
         drawClips();
     }
