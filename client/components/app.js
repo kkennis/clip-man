@@ -24,8 +24,6 @@ class App extends React.Component {
 
 
     watchHelpHotkey = (event) => {
-        console.log('Event hit!!')
-
         if (event.ctrlKey && event.keyCode === keycodes.HELP) {
             this.state.view === 'app' ? this.goToHelp() : this.goToApp();
         } else if (this.state.view === 'help' && event.keyCode === keycodes.GO_BACK) {
