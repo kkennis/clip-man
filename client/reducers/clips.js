@@ -1,9 +1,7 @@
 function clips(state = [], action) {
     switch (action.type) {
-    case 'GO_TO_ADD':
-        return 'add';
-    case 'GO_TO_SEARCH':
-        return 'search';
+    case 'UPDATE_CLIPS':
+        return state.clips;
     default:
         return state;
     }

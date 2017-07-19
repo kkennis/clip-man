@@ -1,19 +1,20 @@
 const ReactDOM = require('react-dom');
 const React = require('react');
-const { createStore } = require('redux');
+const { createStore, applyMiddleware } = require('redux');
+const thunkMiddleware = require('redux-thunk');
 const App = require('./client/omponents/app');
 const reducers = require('./client/reducers');
 
-// PouchDB.plugin(require('pouchdb-legacy-utils'));
-// PouchDB.plugin(require('pouchdb-find'));
-// const db = new PouchDB('clips');
-const store = createStore(reducers);
+const store = createStore(
+    reducers,
+    applyMiddleware(thunkMiddleware)
+);
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root')
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('root')
 );
 
 

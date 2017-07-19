@@ -15,7 +15,7 @@ class ClipsList extends React.Component {
                 </div>
             );
         } else {
-            return this.props.clips.map((clip) => <Clip clip={clip} />);
+            return this.props.clips.reverse().map((clip) => <Clip clip={clip} />);
         }
     }
 }
