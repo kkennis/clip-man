@@ -1,7 +1,7 @@
 function focus(state = null, action) {
     switch (action.type) {
     case 'MOVE_FOCUS_DOWN':
-        return state ? state + 1 : 0;
+        return state !== null ? state + 1 : 0;
     case 'MOVE_FOCUS_UP':
         return state && state > 0 ? state - 1 : null;
     case 'FOCUS_SEARCH':
@@ -11,4 +11,4 @@ function focus(state = null, action) {
     }
 }
 
-module.exports = mode;
+module.exports = focus;

@@ -7,7 +7,7 @@
   "scripts": {
     "start": "electron .",
     "dev": "concurrently \"webpack --watch\" \"gulp serve\"",
-    "build": "webpack --progress && electron-packager . ClipMan --platform=darwin --arch=x64 --version=0.36.0 --icon=Icon.icns",
+    "build": "webpack --progress && electron-packager . ClipMan --platform=darwin --arch=x64 --version=0.36.0 --icon=Icon.icns --overwrite",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

@@ -1,8 +1,9 @@
 const ReactDOM = require('react-dom');
 const React = require('react');
 const { createStore, applyMiddleware } = require('redux');
-const thunkMiddleware = require('redux-thunk');
-const App = require('./client/omponents/app');
+const { Provider } = require('react-redux');
+const thunkMiddleware = require('redux-thunk').default;
+const App = require('./client/components/app');
 const reducers = require('./client/reducers');
 
 const store = createStore(
