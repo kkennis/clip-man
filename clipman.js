@@ -1,10 +1,13 @@
 const ReactDOM = require('react-dom');
 const React = require('react');
-const App = require('./components/app');
+const { createStore } = require('redux');
+const App = require('./client/omponents/app');
+const reducers = require('./client/reducers');
 
 // PouchDB.plugin(require('pouchdb-legacy-utils'));
 // PouchDB.plugin(require('pouchdb-find'));
 // const db = new PouchDB('clips');
+const store = createStore(reducers);
 
 ReactDOM.render(
   <Provider store={store}>
