@@ -28,6 +28,8 @@
     "menubar": "^4.1.2",
     "pouchdb": "^5.4.4",
     "pouchdb-find": "^0.10.2",
-    "pouchdb-legacy-utils": "^1.0.0"
+    "pouchdb-legacy-utils": "^1.0.0",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
   }
 }
