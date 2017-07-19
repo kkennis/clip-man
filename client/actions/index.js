@@ -14,6 +14,18 @@ module.exports.goToSearch = function goToSearch() {
     }
 }
 
+module.exports.moveFocusUp = function moveFocusUp() {
+    return {
+        type: 'MOVE_FOCUS_UP'
+    }
+}
+
+module.exports.moveFocusDown = function moveFocusDown() {
+    return {
+        type: 'MOVE_FOCUS_DOWN'
+    }
+}
+
 module.exports.updateSearch = function updateSearch(searchStr) {
     return {
         type: 'UPDATE_SEARCH',
@@ -29,11 +41,14 @@ module.exports.updateClips = function updateClips(clips) {
 }
 
 module.exports.loadClips = function loadClips() {
+    const updateClips = module.exports.updateClips;
+
     return (dispatch) => {
         db.allDocs({ include_docs: true })
             .then((results) => {
                 if (results.total_rows > 0) {
                     const clips = results.rows.map((r) => r.doc);
+                    console.log('Loaded these clips', clips);
                     dispatch(updateClips(clips));
                 }
             });

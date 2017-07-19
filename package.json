@@ -6,7 +6,8 @@
   "productName": "Clip Man",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager . ClipMan --platform=darwin --arch=x64 --version=0.36.0 --icon=Icon.icns",
+    "dev": "concurrently \"webpack --watch\" \"gulp serve\"",
+    "build": "webpack --progress && electron-packager . ClipMan --platform=darwin --arch=x64 --version=0.36.0 --icon=Icon.icns",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -18,10 +19,19 @@
   "author": "Kevin Kennis",
   "license": "MIT",
   "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "concurrently": "^3.5.0",
     "electron-connect": "^0.4.2",
     "electron-packager": "^7.1.0",
-    "electron-prebuilt": "^1.2.5",
-    "gulp": "^3.9.1"
+    "electron-prebuilt": "^1.4.13",
+    "gulp": "^3.9.1",
+    "webpack": "^3.3.0"
   },
   "dependencies": {
     "copy-to-clipboard": "^3.0.2",

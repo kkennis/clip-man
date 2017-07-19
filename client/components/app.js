@@ -5,7 +5,7 @@ const ClipsList = require('../containers/clips-list');
 const App = () => (
     <div>
         <ControlBar />
-        <ClipsContainer />
+        <ClipsList />
     </div>
 );
 

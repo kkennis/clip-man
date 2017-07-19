@@ -1,7 +1,0 @@
-module.exports = {
-    GO_TO_ADD: 'GO_TO_ADD',
-    GO_TO_SEARCH: 'GO_TO_SEARCH',
-    ADD_CLIP: 'ADD_CLIP',
-    DELETE_CLIP: 'DELETE_CLIP',
-    COPY_CLIP: 'COPY_CLIP'
-}
