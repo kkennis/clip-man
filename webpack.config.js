@@ -7,7 +7,7 @@ module.exports = {
     entry: './clipman.js',
     devtool: 'sourcemaps',
     output: {
-        path: __dirname,
+        path: path.resolve(__dirname, 'assets'),
         filename: 'bundle.js'
     },
     resolve: {

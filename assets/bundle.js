@@ -29400,8 +29400,6 @@ var App = function (_React$Component) {
         }, _this.goToApp = function () {
             _this.setState({ view: 'app' });
         }, _this.watchHelpHotkey = function (event) {
-            console.log('Event hit!!');
-
             if (event.ctrlKey && event.keyCode === keycodes.HELP) {
                 _this.state.view === 'app' ? _this.goToHelp() : _this.goToApp();
             } else if (_this.state.view === 'help' && event.keyCode === keycodes.GO_BACK) {
