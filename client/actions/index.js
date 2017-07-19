@@ -53,9 +53,9 @@ module.exports.addClip = function addClip({ key, value }) {
     }
 }
 
-module.exports.removeClip = function removeClip(doc) {
+module.exports.removeClip = function removeClip({ _id, _rev }) {
     return (dispatch) => {
-        db.remove(doc._id, doc._rev)
+        db.remove(_id, _rev)
             .then(() =>
                 dispatch(loadClips())
             );
