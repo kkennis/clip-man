@@ -8,5 +8,6 @@ module.exports = {
     SUBMIT_FORM: 13, // this is 'enter'
     COPY_CLIP: 13, // this is 'enter'
     DELETE_CLIP: 68, // this is 'd'
+    HELP: 72, // this is 'h'
     QUIT_APP: 81 // this is 'q'
 }
