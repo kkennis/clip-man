@@ -37,6 +37,11 @@ class AddControl extends React.Component {
                 valid: false,
                 error: 'Value may not be empty.'
             }
+        } else if (this.props.clipKeys.includes(this.state.key)) {
+            return {
+                valid: false,
+                error: 'Duplicate key value.'
+            }
         } else {
             return {
                 valid: true
