@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "copy-to-clipboard": "^3.0.2",
-    "electron": "^1.6.11",
+    "electron": "^9.1.0",
     "menubar": "^4.1.2",
     "pouchdb": "^5.4.4",
     "pouchdb-find": "^0.10.2",
